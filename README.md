@@ -10,7 +10,7 @@
 
 1. Download Node package from: https://nodejs.org/en/download/. Check if node is installed properly by `node -v`.
 2. `npm install @angular/cli`
-3. `npm link @angular/cli`. Press y -> press y -> select 'css'.
+3. `npm link @angular/cli`. Press y -> press y -> select 'CSS'.
 
 ### To run
 
