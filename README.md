@@ -18,7 +18,7 @@
 2. `python3 -m venv venv` or `py -3 -m venv env`
 3. `venv\Scripts\activate'(virtual env activate)
 4. `pip install Flask`
-5. `ng build--base-hrefc/static`(if any changes to frontend). This will take all *.ts files from the anulgar CLI and compile them into a distribution folder(/uiangular/dist). 
+5. `ng build--base-href /static/`(if any changes to frontend). This will take all *.ts files from the anulgar CLI and compile them into a distribution folder(/uiangular/dist). 
 6. Copy all *.js and *.map files from ui-angular/dist to static/ and copy index.html from ui-angular/dist to templates/ 
 7. `python3 app.py`(the server runs on http://127.0.0.1:5000/)
 
