@@ -6,6 +6,12 @@
 2. **ui-angular** - the angular app
 3. **template** and **static** folders - used for connection between server and angular app
 
+### Prerequisites
+
+1. Download Node package from: https://nodejs.org/en/download/. Check if node is installed properly by `node -v`.
+2. `npm install @angular/cli`
+3. `npm link @angular/cli`. Press y -> press y -> select 'css'.
+
 ### To run
 
 1. Clone the repo
