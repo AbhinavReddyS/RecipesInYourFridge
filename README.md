@@ -24,4 +24,4 @@
 
 ## Automated development
 
-Whenever the 'ui-angular' app is updated, run `python3 build-dev.py`. This will automatically build the project and apply any changes made. 
+Whenever the 'ui-angular' app is updated, simply run `python3 build-dev.py`. This will automatically build the project and apply any changes made. 
