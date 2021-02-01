@@ -20,6 +20,6 @@
 4. `pip install Flask`
 5. If any changes to frontend, `ng build --base-href /static/`(make sure to cd into 'ui-angular'). This will take all *.ts files from the anulgar CLI and compile them into a distribution folder(/uiangular/dist). 
 6. Copy all *.js and *.map files from ui-angular/dist to static/ and copy index.html from ui-angular/dist to templates/ 
-7. `python3 app.py`(the server runs on http://127.0.0.1:5000/)
+7. `python app.py`(the server runs on http://127.0.0.1:5000/)
 
 **automated development env incoming 
