@@ -22,4 +22,6 @@
 8. Copy all *.js and *.map files from ui-angular/dist to static/ and copy index.html from ui-angular/dist to templates/ 
 9. `python app.py`(the server runs on http://127.0.0.1:5000/)
 
-**automated development env incoming 
+## Automated development
+
+Whenever the 'ui-angular' app is updated, run `python3 build-dev.py`. This will automatically build the project and apply any changes made. 
