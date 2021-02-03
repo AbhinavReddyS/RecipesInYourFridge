@@ -16,11 +16,13 @@
 2. `python3 -m venv venv` or `py -3 -m venv env`
 3. `venv\Scripts\activate'(virtual env activate)
 4. `pip install Flask`
-5. `npm install @angular/cli`
-6. `npm link @angular/cli`. Press y -> press y -> select 'CSS'.
-7. If any changes to frontend, `ng build --base-href /static/`(make sure to cd into 'ui-angular'). This will take all *.ts files from the anulgar CLI and compile them into a distribution folder(/uiangular/dist). 
-8. Copy all *.js and *.map files from ui-angular/dist to static/ and copy index.html from ui-angular/dist to templates/ 
-9. `python app.py`(the server runs on http://127.0.0.1:5000/)
+5. 'pip install pymongo'
+6. 'pip install dnspython'
+7. `npm install @angular/cli`
+8. `npm link @angular/cli`. Press y -> press y -> select 'CSS'.
+9. If any changes to frontend, `ng build --base-href /static/`(make sure to cd into 'ui-angular'). This will take all *.ts files from the anulgar CLI and compile them into a distribution folder(/uiangular/dist). 
+10. Copy all *.js and *.map files from ui-angular/dist to static/ and copy index.html from ui-angular/dist to templates/ 
+11. `python app.py`(the server runs on http://127.0.0.1:5000/)
 
 ## Automated development
 
