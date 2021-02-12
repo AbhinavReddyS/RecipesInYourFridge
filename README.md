@@ -14,7 +14,7 @@
 
 1. Clone the repo
 2. `python3 -m venv venv` or `py -3 -m venv env`
-3. `venv\Scripts\activate'(virtual env activate)
+3. `env\Scripts\activate'(virtual env activate)
 4. `pip install Flask`
 5. `pip install pymongo`
 6. `pip install dnspython`
