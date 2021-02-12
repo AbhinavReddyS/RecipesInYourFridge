@@ -10,19 +10,18 @@ import { AppService } from './app.service';
 export class AppComponent implements OnInit{
   title = 'ui-angular';
   temp = 'Abhinav';
-  data = {};
+  data : any;
   constructor(private appService: AppService){
 
   }
 
   ngOnInit(){
-    this.getData()
+    this.getData();
   }
 
   public getData(){
-    this.title = "1";
-    this.appService.get_data().subscribe((response: any) => 
-      this.data = response
-    );
+    this.appService.get_data().subscribe((response: any) => {
+      this.data = response.data;
+    });
   }
 }

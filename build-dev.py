@@ -5,14 +5,15 @@ import time
 CURRENT_DIRECTORY = os.getcwd()
 directories = os.listdir(CURRENT_DIRECTORY)
 NON_ANGULAR_DIRS = ['static', 'templates', 'venv']
+ANGULAR_DIRECTORY = 'ui-angular'
+# for directory in directories:
+#     if "." not in directory and directory not in NON_ANGULAR_DIRS:
+#         ANGULAR_PROJECT_PATH = os.path.join(CURRENT_DIRECTORY, directory)
+#         DIST_PATH = os.path.join(ANGULAR_PROJECT_PATH, 'dist', directory)
+#         break
 
-for directory in directories:
-    if "." not in directory and directory not in NON_ANGULAR_DIRS:
-        ANGULAR_PROJECT_PATH = os.path.join(CURRENT_DIRECTORY, directory)
-        #print(ANGULAR_PROJECT_PATH)
-        DIST_PATH = os.path.join(ANGULAR_PROJECT_PATH, 'dist', directory)
-        break
-
+ANGULAR_PROJECT_PATH = os.path.join(CURRENT_DIRECTORY, ANGULAR_DIRECTORY)
+DIST_PATH = os.path.join(ANGULAR_PROJECT_PATH, 'dist', ANGULAR_DIRECTORY)
 FLASK_STATIC_PATH = os.path.join(CURRENT_DIRECTORY, 'static')
 FLASK_TEMPLATES_PATH = os.path.join(CURRENT_DIRECTORY, 'templates')
 
@@ -37,4 +38,4 @@ while dir_exists:
     except Exception as e:
         dir_exists = False
         print(e)
-    time.sleep(10.0)
+    time.sleep(5.0)
