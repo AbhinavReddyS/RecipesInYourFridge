@@ -1,5 +1,6 @@
 from flask import Flask, render_template, jsonify, json, Response
 from db import DbInstance
+from riyf import RiyfLogic
 import sys
 from bson import json_util
 
@@ -11,8 +12,8 @@ def hello_world():
 
 @app.route('/getData')
 def get_data():
-    db_connection = DbInstance()
-    test_data = db_connection.get_data()[0]
+    riyf_processor = RiyfLogic()
+    test_data = riyf_processor.get_data()
     return Response(json_util.dumps({'data' : test_data}), mimetype='application/json')
 
 if __name__ == "__main__":   
