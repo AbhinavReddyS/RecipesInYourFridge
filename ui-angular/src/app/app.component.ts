@@ -16,11 +16,10 @@ export class AppComponent implements OnInit{
   }
 
   ngOnInit(){
-    this.getData();
   }
 
-  public getData(){
-    this.appService.get_data().subscribe((response: any) => {
+  public ingredientSearch(){
+    this.appService.ingredientSearch().subscribe((response: any) => {
       this.data = response.data;
     });
   }

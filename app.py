@@ -6,6 +6,12 @@ app = Flask(__name__)
 def hello_world():
     return render_template('index.html')
 
+@app.route('/ISearch')
+def ingredient_search():
+    db_connection = DbInstance()
+    #data = db_connection.get_ingredients()
+    return "recipeId with scores"
+
 @app.route('/getRecipes')
 def get_all_recipes():
     db_connection = DbInstance()
