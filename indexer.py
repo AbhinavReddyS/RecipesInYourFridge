@@ -59,7 +59,7 @@ Around 45k additional words, of any character length, that occurs less than 50 t
 
 
 additional_remover = []
-f = open("additional_remover.txt", "r", encoding="utf8")
+f = open("datasets/additional_remover.txt", "r", encoding="utf8")
 for x in f:
     x.replace('\n', '')
     if x: 
