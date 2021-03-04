@@ -12,7 +12,7 @@ import { catchError, retry } from 'rxjs/operators';
     }
 
     SERVICE_API = 'http://127.0.0.1:5000/';
-    public ingredientSearch() : any{
-      return this.http.get(this.SERVICE_API + 'ISearch');
+    public ingredientSearch(data: any) : any{
+      return this.http.post(this.SERVICE_API + 'ISearch', data);
     }
 }

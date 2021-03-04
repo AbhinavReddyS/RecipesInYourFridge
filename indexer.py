@@ -3,13 +3,17 @@ import pandas as pd
 from glob import glob
 import numpy as np
 import string
+import re
 import nltk
+import math
 from nltk.stem import WordNetLemmatizer
+from nltk.stem import PorterStemmer
 
 
 dataset = []
+porter_stemmer = PorterStemmer()
 
-for f_name in glob('D:/Sem 1/TTDS/data/recipe_1.json'):
+for f_name in glob('D:/Sem 1/TTDS/data/*300.json'):
     f = open(f_name, "r")
     recipe = json.loads(f.read())
     dataset.append(recipe)
@@ -67,9 +71,23 @@ measures.extend(data_leaks) #type of cuisine removers
 measures.extend(common_remove) #common words
 measures.extend(additional_remover) #stop words file
 
-def indexer(dataset):
-    index = []
+def read_stop_words(filename):
+    stop_words=[]
+    with open(filename, 'r') as f:
+        for line in f:
+            for word in line.split():
+                stop_words.append(word)
+    return stop_words
+
+stop_words = read_stop_words('datasets/englishST.txt')
+
+#Method to create an index for the ingredient titles
+def ingr_indexer(dataset):
+    index = dict()
     for recipe in dataset:
+        text_list = []
+        if(recipe["instructions"] == None or recipe["title"] == None):
+            continue 
         text = recipe["title"] + ' ' + ' '.join(recipe["instructions"])
         preprocessed_ingredients = list()
         for ingredient in recipe["ingredients"]:
@@ -84,19 +102,85 @@ def indexer(dataset):
                     if len(word) > 1:
                         preprocessed_ingredients.append(word)
         preprocessed_ingredients = [ingredient for ingredient in set(preprocessed_ingredients) if ingredient is not None]
-        print(preprocessed_ingredients)
-        #calculate the term frquency of the terms in preprocessed_ingredients in the 
-        #preprocessed string variable text
-        #and push the tupel (recipe_id,freq) into index
-            
-indexer(dataset)
+        text_list = [word.strip(",.") for word in text.split()]
+        processed_text_list = []
+        for token in text_list:
+            if token not in stop_words:
+                if token.isalpha():
+                    processed_text_list.append(lemmatizer.lemmatize(token.lower()))
 
-"""
-Desired output a dict()
-term(1):
-    (recipe_id(1), term_frequency(1))
-    (recipe_id(2), term_frequency(2))
-term(2):
-    (recipe_id(1), term_frequency(1))
-    (recipe_id(2), term_frequency(2))
-"""
+        #create bigrams
+        bgs = nltk.bigrams(processed_text_list)
+        fdist = nltk.FreqDist(bgs)
+        for k,v in fdist.items():
+            bigram = k[0] + " " + k[1]
+            processed_text_list.append(bigram)
+         
+        for ingredient in preprocessed_ingredients:
+            if processed_text_list.count(ingredient) != 0:
+                if ingredient in index.keys():
+                    index[ingredient].update({recipe["recipe_id"]: processed_text_list.count(ingredient)})
+                else:
+                    index[ingredient] = {recipe["recipe_id"]: processed_text_list.count(ingredient)}
+  
+    update_index_tfidf(index)
+    output_index_to_file(index, "ingredient_index.pickle")
+
+#Method to create an index for the recipe titles
+def title_indexer(dataset):
+    stopwords = open("datasets/englishST.txt").read().split()
+
+    indexed_terms = dict()
+    for recipe in dataset:
+        title = recipe["title"]
+        doc_id = recipe["recipe_id"]
+        if title:
+            preprocess_title(doc_id, title, stopwords, indexed_terms)
+
+    update_index_tfidf(indexed_terms)
+    output_index_to_file(indexed_terms, "title_index.pickle")
+
+#Preprocess - tokenization, stopword removal and stemming
+def preprocess_title(doc_id, text, stopwords, indexed_terms):
+    regex = re.compile('[^a-zA-Z0-9\']')
+    for word in text.split():
+        token = regex.sub('', word).lower()
+        if token and token not in stopwords:
+            term = porter_stemmer.stem(token)
+            if term in indexed_terms:
+                term_freq = indexed_terms[term].get(doc_id, 0) + 1
+                indexed_terms[term].update({doc_id : term_freq})
+            else:
+                indexed_terms.setdefault(term, {doc_id : 1})
+
+#Calculates TFIDF score given tf, df and N
+def weight_term_doc(term_freq, document_freq, N):
+    return round((1 + math.log10(term_freq)) * (math.log10(N/document_freq)), 4) 
+
+#Replace term freq with tfidf score in the index
+def update_index_tfidf(index):
+    N = len(dataset)
+    for key in index:
+        doc_freq = len(index[key])
+        for doc_id in index[key]:
+            term_freq = index[key][doc_id]
+            index[key][doc_id] = weight_term_doc(term_freq, doc_freq, N)
+
+#writing index to an output pickle file
+def output_index_to_file(index, filename):
+    output_file = open(filename, "w")
+    for term in index:
+        output_file.write(term + ":\n")
+        for document in index[term]:
+            output_file.write("\t" + str(document) + ": " + str(index[term][document]) + "\n")
+    output_file.close()
+
+if __name__ == "__main__":
+    sw = input("Select Choice:\n1)Index for Ingredients\n2)Index for Titles\n")
+    if sw == '1':
+        ingr_indexer(dataset)
+    elif sw == '2':
+        title_indexer(dataset)
+    else:
+        print("Select proper choice")
+

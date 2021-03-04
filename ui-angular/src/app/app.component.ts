@@ -8,9 +8,9 @@ import { AppService } from './app.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit{
-  title = 'ui-angular';
-  temp = 'Abhinav';
-  data : any;
+  query: string = '';
+  queryResponse: any;
+
   constructor(private appService: AppService){
 
   }
@@ -19,8 +19,8 @@ export class AppComponent implements OnInit{
   }
 
   public ingredientSearch(){
-    this.appService.ingredientSearch().subscribe((response: any) => {
-      this.data = response.data;
+    this.appService.ingredientSearch(this.query).subscribe((response: any) => {
+      this.queryResponse = response;
     });
   }
 }

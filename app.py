@@ -1,16 +1,18 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, jsonify
 from db import DbInstance
+from riyf import RiyfLogic
+import sys
 app = Flask(__name__)
 
 @app.route('/')
 def hello_world():
     return render_template('index.html')
 
-@app.route('/ISearch')
+@app.route('/ISearch', methods=['POST'])
 def ingredient_search():
-    db_connection = DbInstance()
-    #data = db_connection.get_ingredients()
-    return "recipeId with scores"
+    _processor = RiyfLogic()
+    text = request.data.decode()
+    return jsonify(_processor.ingredient_search(text))
 
 @app.route('/getRecipes')
 def get_all_recipes():
