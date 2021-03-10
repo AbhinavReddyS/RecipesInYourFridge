@@ -8,8 +8,10 @@ import { AppService } from './app.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit{
-  query: string = '';
-  queryResponse: any;
+  ing_query: string = '';
+  ingQueryResponse: any;
+  title_query: string = '';
+  titleQueryResponse: any;
 
   constructor(private appService: AppService){
 
@@ -19,8 +21,14 @@ export class AppComponent implements OnInit{
   }
 
   public ingredientSearch(){
-    this.appService.ingredientSearch(this.query).subscribe((response: any) => {
-      this.queryResponse = response;
+    this.appService.ingredientSearch(this.ing_query).subscribe((response: any) => {
+      this.ingQueryResponse = response;
+    });
+  }
+
+  public titleSearch(){
+    this.appService.titleSearch(this.title_query).subscribe((response: any) => {
+      this.titleQueryResponse = response;
     });
   }
 }

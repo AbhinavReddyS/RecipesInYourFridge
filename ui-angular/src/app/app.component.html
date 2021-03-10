@@ -17,14 +17,25 @@
     <!-- SEARCH FORM -->
     <form class="form-inline ml-3" method="POST">
       <div class="input-group input-group-sm">
-        <input class="form-control form-control-navbar" type="text" [(ngModel)]="query" placeholder="Search" aria-label="Search" name="i_search">
+        <input class="form-control form-control-navbar" type="text" [(ngModel)]="ing_query" placeholder="Search" aria-label="Search" name="i_search">
         <div class="input-group-append">
           <button class="btn btn-navbar" type="submit" (click)=ingredientSearch()>
             <i class="fa fa-search"></i>
           </button>
         </div>
         <div>
-          <label>{{queryResponse}}</label>
+          <label>{{ingQueryResponse}}</label>
+        </div>
+      </div>
+      <div class="input-group input-group-sm">
+        <input class="form-control form-control-navbar" type="text" [(ngModel)]="title_query" placeholder="Search" aria-label="Search" name="t_search">
+        <div class="input-group-append">
+          <button class="btn btn-navbar" type="submit" (click)=titleSearch()>
+            <i class="fa fa-search"></i>
+          </button>
+        </div>
+        <div>
+          <label>{{titleQueryResponse}}</label>
         </div>
       </div>
     </form>

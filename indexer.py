@@ -170,7 +170,7 @@ def update_index_tfidf(index):
 def output_index_to_file(index, filename):
     output_file = open(filename, "w")
     for term in index:
-        output_file.write(term + ":\n")
+        output_file.write(str(term) + ":\n")
         for document in index[term]:
             output_file.write("\t" + str(document) + ": " + str(index[term][document]) + "\n")
     output_file.close()

@@ -15,4 +15,8 @@ import { catchError, retry } from 'rxjs/operators';
     public ingredientSearch(data: any) : any{
       return this.http.post(this.SERVICE_API + 'ISearch', data);
     }
+
+    public titleSearch(data: any) : any{
+      return this.http.post(this.SERVICE_API + 'TSearch', data);
+    }
 }

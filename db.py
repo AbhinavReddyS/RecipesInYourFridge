@@ -7,6 +7,11 @@ class DbInstance:
     col = db["recipes"] #Recipes Collection
     ing_col = db["Ingredients"] #Ingredients Collection
 
+
+    #Fetches all recipes from DB
+    def get_recipe(self, recipe_id):
+        return self.col.find({"recipe_id" : recipe_id})
+
     #Fetches all ingredients from DB
     def get_ingredients(self):
         return list(self.ing_col.find())

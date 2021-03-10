@@ -14,6 +14,12 @@ def ingredient_search():
     text = request.data.decode()
     return jsonify(_processor.ingredient_search(text))
 
+@app.route('/TSearch', methods=['POST'])
+def title_search():
+    _processor = RiyfLogic()
+    text = request.data.decode()
+    return jsonify(_processor.title_search(text))
+
 @app.route('/getRecipes')
 def get_all_recipes():
     db_connection = DbInstance()
