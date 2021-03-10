@@ -20,11 +20,11 @@ class RiyfLogic:
             if not term:
                 continue
             self.get_weights_of_term_title(collection_index, term, recipe_score)
-        for recipe_id in sorted(recipe_score, key=recipe_score.get, reverse=True):
-            lst_recipe.append(db_connection.get_recipe(recipe_id))
-            if len(lst_recipe) > 20:
-                break
-        return lst_recipe
+        sorted(recipe_score, key=recipe_score.get, reverse=True)
+        lst_recipe_id = list(map(int, list(recipe_score.keys())))
+        return db_connection.get_recipe(lst_recipe_id)
+        
+
 
     def title_prepocess(self, word, regex, porter_stemmer, stopwords_list) -> str:
         if not word:

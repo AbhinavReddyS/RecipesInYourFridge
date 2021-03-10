@@ -1,5 +1,6 @@
 import pymongo
 import json
+from bson import json_util, ObjectId
 
 class DbInstance:
     db_client = pymongo.MongoClient('mongodb+srv://admin:admin@cluster0.13snx.mongodb.net/<dbname>?retryWrites=true&w=majority')
@@ -9,8 +10,8 @@ class DbInstance:
 
 
     #Fetches all recipes from DB
-    def get_recipe(self, recipe_id):
-        return self.col.find_one({"recipe_id" : recipe_id})
+    def get_recipe(self, lst_recipe_id):
+        return json.loads(json_util.dumps(self.col.find({"recipe_id" : {"$in":lst_recipe_id}})))
 
     #Fetches all ingredients from DB
     def get_ingredients(self):
