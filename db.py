@@ -10,7 +10,7 @@ class DbInstance:
 
     #Fetches all recipes from DB
     def get_recipe(self, recipe_id):
-        return self.col.find({"recipe_id" : recipe_id})
+        return self.col.find_one({"recipe_id" : recipe_id})
 
     #Fetches all ingredients from DB
     def get_ingredients(self):

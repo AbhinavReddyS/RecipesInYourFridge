@@ -14,15 +14,15 @@ class RiyfLogic:
         porter_stemmer = PorterStemmer()
         regex = re.compile('[^a-zA-Z0-9]')
         stopwords_list = [regex.sub('', word).lower() for word in open("datasets/englishST.txt").read().split()]
-        collection_index = construct_dict(open("title_index.pickle"))
+        collection_index = self.construct_dict(open("title_index.pickle"))
         for word in query.split():
-            term = title_prepocess(word, regex, porter_stemmer, stopwords_list)
+            term = self.title_prepocess(word, regex, porter_stemmer, stopwords_list)
             if not term:
                 continue
-            get_weights_of_term_title(collection_index, term, recipe_score)
+            self.get_weights_of_term_title(collection_index, term, recipe_score)
         for recipe_id in sorted(recipe_score, key=recipe_score.get, reverse=True):
             lst_recipe.append(db_connection.get_recipe(recipe_id))
-            if lst_recipe.count > 20:
+            if len(lst_recipe) > 20:
                 break
         return lst_recipe
 
