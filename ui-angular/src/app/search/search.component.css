@@ -5,16 +5,24 @@ body {
 
 #topbar {
     display: flex;
-    height: 64px;
+    height: 80px;
     width: 100%;
     align-items: flex-end;
     position: fixed;
-    background-color: white;
+    background-color: #f0f0f0;
+    padding:10px;
+     z-index: 900;
+}
+
+#results {
+padding: 150px 50px 50px 50px;
+z-index: 800;
+
 }
 
 #searchbarimage {
-    height: 30px;
-    padding: 0px 28px 10px 30px;
+    height: 50px;
+    padding: 5px;
     cursor: pointer;
 }
 
@@ -34,6 +42,7 @@ html, body {
 #searchbarmic img {
     height: 25px;
 }
+
 
 #searchbarbutton {
     height: 45px;
@@ -192,6 +201,7 @@ html, body {
 }
 
 #optionsbar {
+    padding: 100px;
     width: 100%;
     height: 50px;
     border-width: 0px;
