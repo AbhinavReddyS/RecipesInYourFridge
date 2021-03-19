@@ -67,7 +67,7 @@ class RiyfLogic:
                 continue
             self.get_weights_of_term_title(collection_index, term, recipe_score)
         sorted(recipe_score, key=recipe_score.get, reverse=True)
-        lst_recipe_id = list(map(int, list(recipe_score.keys())))
+        lst_recipe_id = list(map(int, list(recipe_score.keys())))[:25]
         return db_connection.get_recipe(lst_recipe_id)
         
 
@@ -124,7 +124,7 @@ class RiyfLogic:
         porter_stemmer = PorterStemmer()
         regex = re.compile('[^a-zA-Z0-9]')
         stopwords_list = [regex.sub('', word).lower() for word in open("datasets/englishST.txt").read().split()]
-        collection_index = self.construct_dict(open("ingredient_index.pickle"))
+        collection_index = self.construct_dict(open("ingredient_index.pickle", encoding='utf-8'))
         for word in query.split():
             term = self.ingredient_preprocess(word, regex, porter_stemmer, stopwords_list)
             if not term:
@@ -133,6 +133,3 @@ class RiyfLogic:
         sorted(recipe_score, key=recipe_score.get, reverse=True)
         lst_recipe_id = list(map(int, list(recipe_score.keys())))[:25]
         return db_connection.get_recipe(lst_recipe_id)
-
-
-print(RiyfLogic().ingredient_search('sugarsss and rice'))

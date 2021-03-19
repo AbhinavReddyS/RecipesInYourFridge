@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AppService } from '../app.service';
 
 export interface Tile {
   color: string;
@@ -14,9 +15,22 @@ export interface Tile {
 })
 export class SearchComponent implements OnInit {
 
-  constructor() { }
+  ing_query: string = '';
+  lstRecipes: any;
+  constructor(private appService: AppService){
 
+  }
   ngOnInit(): void {
+  }
+
+  public ingredientSearch(){
+    this.appService.ingredientSearch(this.ing_query).subscribe((response: any) => {
+      this.lstRecipes = response;
+    });
+  }
+
+  public redirect(url:any){
+    window.location.href=url;
   }
 
   tiles: Tile[] = [
@@ -29,7 +43,7 @@ export class SearchComponent implements OnInit {
     {text: 'recipe', cols: 1, rows: 1, color: '#F3F3F3'},
     {text: 'recipe', cols: 1, rows: 1, color: '#F3F3F3'},
     {text: 'recipe', cols: 1, rows: 1, color: '#F3F3F3'},
-        {text: 'recipe', cols: 1, rows: 1, color: '#F3F3F3'},
+    {text: 'recipe', cols: 1, rows: 1, color: '#F3F3F3'},
     {text: 'recipe', cols: 1, rows: 1, color: '#F3F3F3'},
     {text: 'recipe', cols: 1, rows: 1, color: '#F3F3F3'},
     {text: 'recipe', cols: 1, rows: 1, color: '#F3F3F3'},
