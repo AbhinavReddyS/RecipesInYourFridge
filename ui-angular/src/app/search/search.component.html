@@ -27,11 +27,12 @@
         <div id="results">
             <mat-grid-list cols="4" rowHeight="200px" gutterSize=50px>
                 <mat-grid-tile *ngFor="let recipe of lstRecipes" [colspan]="1" [rowspan]="1"
-                    [style.backgroundImage]="'url('+ recipe.photo_url +')'" (click)="redirect(recipe.recipe_url)" 
+                    (click)="redirect(recipe.recipe_url)" 
                     class="tile">
-                    <div class="tile_title">
-                        {{recipe.title}}
-                    </div>
+                    <div class="tile_content">
+                        <img src="{{recipe.photo_url}}" alt="Avatar" class="image">
+                        <div class="overlay">{{recipe.title}}</div>
+                      </div>
                 </mat-grid-tile>
             </mat-grid-list>
         </div>
