@@ -119,9 +119,9 @@ def ingr_indexer(dataset):
         for ingredient in preprocessed_ingredients:
             if processed_text_list.count(ingredient) != 0:
                 if ingredient in index.keys():
-                    index[ingredient].update({recipe["recipe_id"]: processed_text_list.count(ingredient)})
+                    index[ingredient].update({recipe["id"]: processed_text_list.count(ingredient)})
                 else:
-                    index[ingredient] = {recipe["recipe_id"]: processed_text_list.count(ingredient)}
+                    index[ingredient] = {recipe["id"]: processed_text_list.count(ingredient)}
   
     update_index_tfidf(index)
     output_index_to_file(index, "ingredient_index.pickle")
@@ -133,7 +133,7 @@ def title_indexer(dataset):
     indexed_terms = dict()
     for recipe in dataset:
         title = recipe["title"]
-        doc_id = recipe["recipe_id"]
+        doc_id = recipe["id"]
         if title:
             preprocess_title(doc_id, title, stopwords, indexed_terms)
 
