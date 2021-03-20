@@ -7,7 +7,7 @@ from db import DbInstance
 import sys
 from nltk.stem import WordNetLemmatizer
 import pandas as pd
-
+import operator
 
 class RiyfLogic:
 
@@ -66,8 +66,8 @@ class RiyfLogic:
             if not term:
                 continue
             self.get_weights_of_term_title(collection_index, term, recipe_score)
-        sorted(recipe_score, key=recipe_score.get, reverse=True)
-        lst_recipe_id = list(map(int, list(recipe_score.keys())))[:25]
+        sorted_tuples = sorted(recipe_score.items(), key=operator.itemgetter(1), reverse=True)
+        lst_recipe_id = [int(x[0]) for x in sorted_tuples][:25]
         return db_connection.get_recipe(lst_recipe_id)
         
 
@@ -100,7 +100,7 @@ class RiyfLogic:
                 doc_dict = {}
             else:
                 doc_line = line.strip().split(':')
-                doc_dict[doc_line[0]] = doc_line[1]
+                doc_dict[doc_line[0]] = float(doc_line[1])
         return index_dict
 
 
@@ -130,6 +130,6 @@ class RiyfLogic:
             if not term:
                 continue
             self.get_weights_of_term_title(collection_index, term, recipe_score)
-        sorted(recipe_score, key=recipe_score.get, reverse=True)
-        lst_recipe_id = list(map(int, list(recipe_score.keys())))[:25]
+        sorted_tuples = sorted(recipe_score.items(), key=operator.itemgetter(1), reverse=True)
+        lst_recipe_id = [int(x[0]) for x in sorted_tuples][:25]
         return db_connection.get_recipe(lst_recipe_id)
