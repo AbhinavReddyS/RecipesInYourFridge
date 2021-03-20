@@ -68,8 +68,13 @@ class RiyfLogic:
             self.get_weights_of_term_title(collection_index, term, recipe_score)
         sorted_tuples = sorted(recipe_score.items(), key=operator.itemgetter(1), reverse=True)
         lst_recipe_id = [int(x[0]) for x in sorted_tuples][:25]
-        return db_connection.get_recipe(lst_recipe_id)
-        
+        list_recipes = db_connection.get_recipe(lst_recipe_id)
+        sorted_list_recipes = []
+        for recipe_id in lst_recipe_id:
+            for recipe in list_recipes:
+                if recipe['id'] == recipe_id:
+                    sorted_list_recipes.append(recipe)
+        return sorted_list_recipes
 
 
     def title_prepocess(self, word, regex, porter_stemmer, stopwords_list) -> str:
@@ -114,7 +119,8 @@ class RiyfLogic:
                 return None
             token = regex.sub('', word).lower()
             if token and token not in stopwords_list:
-                return porter_stemmer.stem(token)
+                return token
+                #return porter_stemmer.stem(token)
             return ''
 
     def ingredient_search(self, query: str) -> list:
@@ -132,4 +138,15 @@ class RiyfLogic:
             self.get_weights_of_term_title(collection_index, term, recipe_score)
         sorted_tuples = sorted(recipe_score.items(), key=operator.itemgetter(1), reverse=True)
         lst_recipe_id = [int(x[0]) for x in sorted_tuples][:25]
-        return db_connection.get_recipe(lst_recipe_id)
+        lst_recipe_id = [21,25,241,255]
+        list_recipes = db_connection.get_recipe(lst_recipe_id)
+        sorted_list_recipes = []
+        for recipe_id in lst_recipe_id:
+            for recipe in list_recipes:
+                if recipe['id'] == recipe_id:
+                    sorted_list_recipes.append(recipe)
+        return sorted_list_recipes
+         
+
+riyf = RiyfLogic()
+print(riyf.ingredient_search('chocolate'))

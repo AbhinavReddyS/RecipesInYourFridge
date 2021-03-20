@@ -11,7 +11,7 @@ class DbInstance:
 
     #Fetches all recipes from DB
     def get_recipe(self, lst_recipe_id):
-        return json.loads(json_util.dumps(self.col.find({"recipe_id" : {"$in":lst_recipe_id}})))
+        return json.loads(json_util.dumps(self.col.find({"id" : {"$in":lst_recipe_id}})))
 
     #Fetches all ingredients from DB
     def get_ingredients(self):
