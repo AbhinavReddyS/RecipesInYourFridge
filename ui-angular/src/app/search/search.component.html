@@ -2,45 +2,60 @@
 <html>
 
 <head>
-    <title>search</title>
+  <title>search</title>
 </head>
 
 <body>
-    <div id="header">
-        <div id="topbar">
-            <img id="searchbarimage" src="assets/images/RIYF.png" />
-            <div id="searchbar" type="text">
- <input id="searchbartext" type="text" name="ingredientSearchText" type="text" placeholder="Search..."
-                    [(ngModel)]="ing_query" value = {{service.text}}  #reference/>
-              <button class= "cancel" (click)="reference.value=''">
-                <i class="fa fa-times" aria-hidden="true"></i></button>
-              <div class= "vertical"></div>
-              <button class= "mic" (click)="startService()">
-              <i class="fa fa-microphone" aria-hidden="true"></i>
-                </button>
-              <button class= "search" (click)="ingredientSearch(); stopService()" type="submit">
-              <i class="fa fa-search" aria-hidden="true"></i>
-                </button>
-            </div>
-                    <div class="toggle">
-          <mat-slide-toggle (click)="toggle()"></mat-slide-toggle>
-            </div>
-                      <p>Ingredient Search</p>
-        </div>
-        <div id="results">
-            <mat-grid-list cols="4" rowHeight="200px" gutterSize=50px>
-                <mat-grid-tile *ngFor="let recipe of lstRecipes" [colspan]="1" [rowspan]="1"
-                    [style.backgroundImage]="'url('+ recipe.photo_url +')'" (click)="redirect(recipe.recipe_url)"
-                    class="tile">
-                    <div class="tile_content">
-                        <img src="{{recipe.photo_url}}" alt="Avatar" class="image">
-                        <div class="overlay">{{recipe.title}}</div>
-                      </div>
-                </mat-grid-tile>
-            </mat-grid-list>
-        </div>
-
+  <div id="header">
+    <div id="topbar">
+      <img id="searchbarimage" src="assets/images/RIYF.png" />
+      <div id="searchbar" type="text" *ngIf="!ing_search">
+        <input id="searchbartext" type="text" name="titleSearchText" type="text" placeholder="Search recipe..."
+          [(ngModel)]="title_query" value = {{service.text}} #reference />
+        <button class="cancel" (click)="reference.value=''">
+          <i class="fa fa-times" aria-hidden="true"></i></button>
+        <div class="vertical"></div>
+        <button class="mic">
+          <i class="fa fa-microphone" aria-hidden="true"></i>
+        </button>
+        <button class="search" (click)="titleSearch(); stopService()" type="submit">
+          <i class="fa fa-search" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div id="searchbar" type="text" *ngIf="ing_search">
+        <input id="searchbartext" type="text" name="ingredientSearchText" type="text" placeholder="Search ingredients..."
+          [(ngModel)]="ing_query" value = {{service.text}} #reference />
+        <button class="cancel" (click)="reference.value=''">
+          <i class="fa fa-times" aria-hidden="true"></i></button>
+        <div class="vertical"></div>
+        <button class="mic" (click)="startService()">
+          <i class="fa fa-microphone" aria-hidden="true"></i>
+        </button>
+        <button class="search" (click)="ingredientSearch(); stopService()" type="submit">
+          <i class="fa fa-search" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div class="toggle">
+        <mat-slide-toggle (click)="toggle()"></mat-slide-toggle>
+      </div>
+      <p>Ingredient Search</p>
     </div>
+    <div id="results">
+      <div class="spinner-border text-warning mar-left-50" role="status" *ngIf="loader_spinner">
+        <span class="sr-only">Loading...</span>
+      </div>
+      <mat-grid-list cols="4" rowHeight="200px" gutterSize=50px>
+        <mat-grid-tile *ngFor="let recipe of lstRecipes" [colspan]="1" [rowspan]="1"
+          [style.backgroundImage]="'url('+ recipe.photo_url +')'" (click)="redirect(recipe.recipe_url)" class="tile">
+          <div class="tile_content">
+            <img src="{{recipe.photo_url}}" alt="Avatar" class="image">
+            <div class="overlay">{{recipe.title}}</div>
+          </div>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </div>
+
+  </div>
 
 </body>
 

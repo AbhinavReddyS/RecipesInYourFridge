@@ -89,9 +89,18 @@ class RiyfLogic:
     def get_weights_of_term_title(self, collection_index, term, recipe_score):
         for recipe_id in collection_index[term]:
             if recipe_score.get(recipe_id):
-                recipe_score[recipe_id] = round(recipe_score[recipe_id] + float(collection_index[term][recipe_id]), 4)
+                recipe_score[recipe_id] = round(recipe_score[recipe_id] + float(collection_index[term][recipe_id]), 4) + 7.4107
             else:
                 recipe_score[recipe_id] = float(collection_index[term][recipe_id])
+    
+    #Populate weight of term against all the documents the term appears in for a ingredient query
+    def get_weights_of_term_ing(self, collection_index, term, recipe_score):
+        for recipe_id in collection_index[term]:
+            if recipe_score.get(recipe_id):
+                recipe_score[recipe_id] = round(recipe_score[recipe_id] + float(collection_index[term][recipe_id]), 4) + 11.5442
+            else:
+                recipe_score[recipe_id] = float(collection_index[term][recipe_id])
+
 
     #Method to construct a dictionary data structure from the index file
     def construct_dict(self, file) -> dict:
@@ -135,10 +144,9 @@ class RiyfLogic:
             term = self.ingredient_preprocess(word, regex, porter_stemmer, stopwords_list)
             if not term:
                 continue
-            self.get_weights_of_term_title(collection_index, term, recipe_score)
+            self.get_weights_of_term_ing(collection_index, term, recipe_score)
         sorted_tuples = sorted(recipe_score.items(), key=operator.itemgetter(1), reverse=True)
         lst_recipe_id = [int(x[0]) for x in sorted_tuples][:25]
-        lst_recipe_id = [21,25,241,255]
         list_recipes = db_connection.get_recipe(lst_recipe_id)
         sorted_list_recipes = []
         for recipe_id in lst_recipe_id:
@@ -148,5 +156,5 @@ class RiyfLogic:
         return sorted_list_recipes
          
 
-riyf = RiyfLogic()
-print(riyf.ingredient_search('chocolate'))
+# riyf = RiyfLogic()
+# print(riyf.ingredient_search('chocolate chicken'))

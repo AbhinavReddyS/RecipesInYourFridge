@@ -522,3 +522,7 @@ margin: 11px;
   .tile_content:hover .overlay {
     opacity: 1;
   }
+
+  .mar-left-50{
+      margin-left: 50%;
+  }
