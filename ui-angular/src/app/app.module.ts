@@ -7,11 +7,15 @@ import { AppComponent } from './app.component';
 import { SearchComponent } from './search/search.component';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatSelectModule} from '@angular/material/select';
+import { SpeechToTextComponent } from './speech-to-text/speech-to-text.component';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatChipsModule} from '@angular/material/chips';
 
 @NgModule({
   declarations: [
     AppComponent,
-    SearchComponent
+    SearchComponent,
+    SpeechToTextComponent
   ],
   imports: [
     BrowserModule,
@@ -19,7 +23,9 @@ import {MatSelectModule} from '@angular/material/select';
     HttpClientModule,
     FormsModule,
     MatGridListModule,
-    MatSelectModule
+    MatSelectModule,
+    MatSlideToggleModule,
+    MatChipsModule
   ],
   providers: [],
   bootstrap: [AppComponent,SearchComponent]

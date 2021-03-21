@@ -10,24 +10,27 @@
         <div id="topbar">
             <img id="searchbarimage" src="assets/images/RIYF.png" />
             <div id="searchbar" type="text">
-                <input id="searchbartext" type="text" name="ingredientSearchText" type="text" placeholder="Ingredients"
-                    [(ngModel)]="ing_query" />
-                <button id="searchbarmic">
+ <input id="searchbartext" type="text" name="ingredientSearchText" type="text" placeholder="Search..."
+                    [(ngModel)]="ing_query" value = {{service.text}}  #reference/>
+              <button class= "cancel" (click)="reference.value=''">
+                <i class="fa fa-times" aria-hidden="true"></i></button>
+              <div class= "vertical"></div>
+              <button class= "mic" (click)="startService()">
+              <i class="fa fa-microphone" aria-hidden="true"></i>
                 </button>
-                <button id="searchbarbutton" (click)=ingredientSearch() type="submit">
-                    <svg focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path
-                            d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z">
-                        </path>
-                    </svg>
+              <button class= "search" (click)="ingredientSearch(); stopService()" type="submit">
+              <i class="fa fa-search" aria-hidden="true"></i>
                 </button>
             </div>
-
+                    <div class="toggle">
+          <mat-slide-toggle (click)="toggle()"></mat-slide-toggle>
+            </div>
+                      <p>Ingredient Search</p>
         </div>
         <div id="results">
             <mat-grid-list cols="4" rowHeight="200px" gutterSize=50px>
                 <mat-grid-tile *ngFor="let recipe of lstRecipes" [colspan]="1" [rowspan]="1"
-                    (click)="redirect(recipe.recipe_url)" 
+                    [style.backgroundImage]="'url('+ recipe.photo_url +')'" (click)="redirect(recipe.recipe_url)"
                     class="tile">
                     <div class="tile_content">
                         <img src="{{recipe.photo_url}}" alt="Avatar" class="image">

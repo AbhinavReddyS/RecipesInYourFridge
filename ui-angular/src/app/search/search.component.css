@@ -9,7 +9,7 @@ body {
     width: 100%;
     align-items: flex-end;
     position: fixed;
-    background-color: #f0f0f0;
+    background-color: #fcfcfc;
     padding:10px;
      z-index: 900;
 }
@@ -21,7 +21,7 @@ z-index: 800;
 }
 
 #searchbarimage {
-    height: 50px;
+    height: 57px;
     padding: 5px;
     cursor: pointer;
 }
@@ -32,16 +32,7 @@ html, body {
     height: auto;
 }
 
-#searchbarmic {
-    height: 45px;
-    width: 35px;
-    margin-left: auto;
-    background-color: white;
-}
 
-#searchbarmic img {
-    height: 25px;
-}
 
 
 #searchbarbutton {
@@ -166,6 +157,73 @@ html, body {
     line-height: 14px;
     color: green;
     margin-bottom: 0px;
+}
+
+.mic {
+color:#ecac54;
+background: #ffffff ;
+    cursor: pointer;
+}
+
+.cancel
+{
+
+padding-right: 20px;
+color:	#BEBEBE;
+background: #ffffff ;
+    cursor: pointer;
+}
+
+ .vertical {
+            border-left: 1px solid #BEBEBE;
+            height: 30px;
+            padding:50px 10px 10px 10px;
+        }
+
+.fa-microphone:hover::after{
+colour: #ffffff
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+.toggle{
+
+color:	#C8C8C8;
+padding :15px;}
+
+.text{
+font-weight: normal;
+margin: 11px;
+}
+
+.search{
+    padding-right: 15px;
+    padding-left:10px;
+    color:#4cc094;
+    background: #ffffff ;
+
 }
 
 .searchresult button {
@@ -439,19 +497,19 @@ html, body {
     width: 50%;
     max-width: 300px; */
   }
-  
+
   .image {
     display: block;
     width: 100%;
     height: auto;
   }
-  
+
   .overlay {
-    position: absolute; 
-    bottom: 0; 
+    position: absolute;
+    bottom: 0;
     background: rgb(0, 0, 0);
     background: rgba(0, 0, 0, 0.5); /* Black see-through */
-    color: #f1f1f1; 
+    color: #f1f1f1;
     width: 100%;
     transition: .5s ease;
     opacity:0;
@@ -460,7 +518,7 @@ html, body {
     padding: 20px;
     text-align: center;
   }
-  
+
   .tile_content:hover .overlay {
     opacity: 1;
   }
