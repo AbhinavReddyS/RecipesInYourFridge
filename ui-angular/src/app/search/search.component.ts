@@ -19,17 +19,32 @@ export interface Tile {
 export class SearchComponent implements OnInit {
 
   ing_query: string = '';
+  title_query: string = '';
+  ing_search: boolean = false;
+  loader_spinner: boolean = false;
   lstRecipes: any;
   ingredients:any;
   constructor(private appService: AppService, public service : VoiceRecognitionService){
-   this.service.init()
-  }
+    this.service.init()
+   }
   ngOnInit(): void {
   }
 
   public ingredientSearch(){
+    this.lstRecipes = null;
+    this.loader_spinner = true;
     this.appService.ingredientSearch(this.ing_query).subscribe((response: any) => {
       this.lstRecipes = response;
+      this.loader_spinner = false;
+    });
+  }
+
+  public titleSearch(){
+    this.lstRecipes = null;
+    this.loader_spinner = true;
+    this.appService.titleSearch(this.title_query).subscribe((response: any) => {
+      this.lstRecipes = response;
+      this.loader_spinner = false;
     });
   }
 
@@ -41,41 +56,21 @@ export class SearchComponent implements OnInit {
   }
 
   public toggle(){
-
+    this.ing_query = '';
+    this.title_query = '';
+    this.ing_search = !this.ing_search;
   }
 
   public redirect(url:any){
         window.open(url, "_blank");
   }
 
-    startService(){
+  startService(){
     this.service.start()
   }
 
   stopService(){
     this.service.stop()
   }
-
-  tiles: Tile[] = [
-    {text: 'recipe', cols: 1, rows: 1, color: '#F3F3F3'},
-    {text: 'recipe', cols: 1, rows: 1, color: '#F3F3F3'},
-    {text: 'recipe', cols: 1, rows: 1, color: '#F3F3F3'},
-    {text: 'recipe', cols: 1, rows: 1, color: '#F3F3F3'},
-    {text: 'recipe', cols: 1, rows: 1, color: '#F3F3F3'},
-    {text: 'recipe', cols: 1, rows: 1, color: '#F3F3F3'},
-    {text: 'recipe', cols: 1, rows: 1, color: '#F3F3F3'},
-    {text: 'recipe', cols: 1, rows: 1, color: '#F3F3F3'},
-    {text: 'recipe', cols: 1, rows: 1, color: '#F3F3F3'},
-    {text: 'recipe', cols: 1, rows: 1, color: '#F3F3F3'},
-    {text: 'recipe', cols: 1, rows: 1, color: '#F3F3F3'},
-    {text: 'recipe', cols: 1, rows: 1, color: '#F3F3F3'},
-    {text: 'recipe', cols: 1, rows: 1, color: '#F3F3F3'},
-    {text: 'recipe', cols: 1, rows: 1, color: '#F3F3F3'},
-    {text: 'recipe', cols: 1, rows: 1, color: '#F3F3F3'},
-    {text: 'recipe', cols: 1, rows: 1, color: '#F3F3F3'},
-    {text: 'recipe', cols: 1, rows: 1, color: '#F3F3F3'},
-    {text: 'recipe', cols: 1, rows: 1, color: '#F3F3F3'},
-
-  ];
 
 }
