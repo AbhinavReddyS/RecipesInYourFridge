@@ -6,16 +6,23 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { SearchComponent } from './search/search.component';
 import {MatGridListModule} from '@angular/material/grid-list';
-import {MatSelectModule} from '@angular/material/select';
 import { SpeechToTextComponent } from './speech-to-text/speech-to-text.component';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatChipsModule} from '@angular/material/chips';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MatIconModule} from '@angular/material/icon';
+import {MatInputModule} from '@angular/material/input';
+import {MatOptionModule} from '@angular/material/core';
+import {MatSelectModule} from '@angular/material/select';
+import {ReactiveFormsModule} from '@angular/forms';
+import {SearchFilter} from './search/search.filter';
 
 @NgModule({
   declarations: [
     AppComponent,
     SearchComponent,
-    SpeechToTextComponent
+    SpeechToTextComponent,
+    SearchFilter
   ],
   imports: [
     BrowserModule,
@@ -23,9 +30,10 @@ import {MatChipsModule} from '@angular/material/chips';
     HttpClientModule,
     FormsModule,
     MatGridListModule,
-    MatSelectModule,
     MatSlideToggleModule,
-    MatChipsModule
+    MatChipsModule,
+    BrowserAnimationsModule,
+    MatInputModule,MatOptionModule, MatSelectModule, MatIconModule,ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent,SearchComponent]

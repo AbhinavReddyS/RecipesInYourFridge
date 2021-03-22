@@ -6,6 +6,7 @@ from nltk.stem import PorterStemmer
 from db import DbInstance
 import sys
 from nltk.stem import WordNetLemmatizer
+from nltk.util import bigrams
 import pandas as pd
 import operator
 
@@ -61,10 +62,8 @@ class RiyfLogic:
         regex = re.compile('[^a-zA-Z0-9]')
         stopwords_list = [regex.sub('', word).lower() for word in open("datasets/englishST.txt").read().split()]
         collection_index = self.construct_dict(open("title_index.pickle"))
-        for word in query.split():
-            term = self.title_prepocess(word, regex, porter_stemmer, stopwords_list)
-            if not term:
-                continue
+        lst_terms = self.title_prepocess(query, regex, porter_stemmer, stopwords_list)
+        for term in lst_terms:
             self.get_weights_of_term_title(collection_index, term, recipe_score)
         sorted_tuples = sorted(recipe_score.items(), key=operator.itemgetter(1), reverse=True)
         lst_recipe_id = [int(x[0]) for x in sorted_tuples][:25]
@@ -77,17 +76,24 @@ class RiyfLogic:
         return sorted_list_recipes
 
 
-    def title_prepocess(self, word, regex, porter_stemmer, stopwords_list) -> str:
-        if not word:
-            return None
-        token = regex.sub('', word).lower()
-        if token and token not in stopwords_list:
-            return porter_stemmer.stem(token)
-        return ''
+    def title_prepocess(self, query, regex, porter_stemmer, stopwords_list) -> list:
+        lst_terms = []
+        lst_processed_terms = []
+        for word in query.split():
+            token = regex.sub('', word).lower()
+            if token and token not in stopwords_list:
+                lst_terms.append(token)
+        term_bigrams = [x[0] + ' ' + x[1] for x in list(bigrams(lst_terms))]
+        lst_terms.extend(term_bigrams)
+        for term in lst_terms:
+            processed_term = porter_stemmer.stem(term)
+            if processed_term:
+                lst_processed_terms.append(processed_term)
+        return lst_processed_terms
 
     #Populate weight of term against all the documents the term appears in for a title query
     def get_weights_of_term_title(self, collection_index, term, recipe_score):
-        for recipe_id in collection_index[term]:
+        for recipe_id in collection_index.get(term, []):
             if recipe_score.get(recipe_id):
                 recipe_score[recipe_id] = round(recipe_score[recipe_id] + float(collection_index[term][recipe_id]), 4) + 7.4107
             else:
@@ -95,7 +101,7 @@ class RiyfLogic:
     
     #Populate weight of term against all the documents the term appears in for a ingredient query
     def get_weights_of_term_ing(self, collection_index, term, recipe_score):
-        for recipe_id in collection_index[term]:
+        for recipe_id in collection_index.get(term, []):
             if recipe_score.get(recipe_id):
                 recipe_score[recipe_id] = round(recipe_score[recipe_id] + float(collection_index[term][recipe_id]), 4) + 11.5442
             else:

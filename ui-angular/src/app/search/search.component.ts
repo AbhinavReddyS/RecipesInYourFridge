@@ -3,13 +3,6 @@ import { AppService } from '../app.service';
 import { VoiceRecognitionService } from '../service/voice-recognition.service'
 
 
-export interface Tile {
-  color: string;
-  cols: number;
-  rows: number;
-  text: string;
-}
-
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
@@ -24,6 +17,11 @@ export class SearchComponent implements OnInit {
   loader_spinner: boolean = false;
   lstRecipes: any;
   ingredients:any;
+  cooking_time_filter:any;
+  max_time: number = 1000;
+
+
+
   constructor(private appService: AppService, public service : VoiceRecognitionService){
     this.service.init()
    }
@@ -31,6 +29,8 @@ export class SearchComponent implements OnInit {
   }
 
   public ingredientSearch(){
+    if (this.ing_query == '')
+      return;
     this.lstRecipes = null;
     this.loader_spinner = true;
     this.appService.ingredientSearch(this.ing_query).subscribe((response: any) => {
@@ -40,6 +40,8 @@ export class SearchComponent implements OnInit {
   }
 
   public titleSearch(){
+    if (this.title_query == '')
+      return;
     this.lstRecipes = null;
     this.loader_spinner = true;
     this.appService.titleSearch(this.title_query).subscribe((response: any) => {
@@ -66,11 +68,21 @@ export class SearchComponent implements OnInit {
   }
 
   startService(){
-    this.service.start()
+    this.service.start();
   }
 
   stopService(){
-    this.service.stop()
+    this.service.stop();
   }
 
+  time_filter(){
+    this.max_time = 1000;  
+    if (this.cooking_time_filter.indexOf('3') > -1) {
+      this.max_time = 1000;
+    } else if (this.cooking_time_filter.indexOf('2') > -1) {
+      this.max_time = 60;
+    } else if (this.cooking_time_filter.indexOf('1') > -1) {
+      this.max_time = 30;
+    }
+  }
 }

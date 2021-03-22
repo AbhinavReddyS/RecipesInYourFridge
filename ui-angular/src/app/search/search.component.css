@@ -9,7 +9,7 @@ body {
     width: 100%;
     align-items: flex-end;
     position: fixed;
-    background-color: #fcfcfc;
+    background-color: #a99546;
     padding:10px;
      z-index: 900;
 }
@@ -17,7 +17,7 @@ body {
 #results {
 padding: 150px 50px 50px 50px;
 z-index: 800;
-
+background-color: lightyellow;
 }
 
 #searchbarimage {
@@ -526,3 +526,16 @@ margin: 11px;
   .mar-left-50{
       margin-left: 50%;
   }
+
+  .recipedetails{
+      font-size: 15px;
+      text-align: center;
+  }
+
+  .recipedetails span{
+      margin: 5px;
+  }
+
+  .recipedetails i{
+    margin-right: 3px;
+}

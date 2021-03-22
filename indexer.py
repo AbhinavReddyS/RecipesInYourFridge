@@ -143,15 +143,20 @@ def title_indexer(dataset):
 #Preprocess - tokenization, stopword removal and stemming
 def preprocess_title(doc_id, text, stopwords, indexed_terms):
     regex = re.compile('[^a-zA-Z0-9\']')
+    lst_terms = []
     for word in text.split():
         token = regex.sub('', word).lower()
         if token and token not in stopwords:
-            term = porter_stemmer.stem(token)
-            if term in indexed_terms:
-                term_freq = indexed_terms[term].get(doc_id, 0) + 1
-                indexed_terms[term].update({doc_id : term_freq})
-            else:
-                indexed_terms.setdefault(term, {doc_id : 1})
+            lst_terms.append(token)
+    term_bigrams = [x[0] + ' ' + x[1] for x in list(nltk.bigrams(lst_terms))]
+    lst_terms.extend(term_bigrams)
+    for term in lst_terms:
+        term = porter_stemmer.stem(term)
+        if term in indexed_terms:
+            term_freq = indexed_terms[term].get(doc_id, 0) + 1
+            indexed_terms[term].update({doc_id : term_freq})
+        else:
+            indexed_terms.setdefault(term, {doc_id : 1})
 
 #Calculates TFIDF score given tf, df and N
 def weight_term_doc(term_freq, document_freq, N):

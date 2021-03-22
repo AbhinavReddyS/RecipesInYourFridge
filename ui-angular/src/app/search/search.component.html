@@ -35,21 +35,42 @@
           <i class="fa fa-search" aria-hidden="true"></i>
         </button>
       </div>
+
       <div class="toggle">
         <mat-slide-toggle (click)="toggle()"></mat-slide-toggle>
       </div>
-      <p>Ingredient Search</p>
+      <p style="font-weight: bold; color: #f8f9fa;">Ingredient Search</p>
+      <div *ngIf="lstRecipes?.length > 0">
+        <mat-form-field appearance = "fill">
+           <mat-select placeholder = "Select" (selectionChange)="time_filter()" [(ngModel)]="cooking_time_filter">
+            <mat-option value = "0">Cooking Time</mat-option>  
+            <mat-option value = "1">~30 min</mat-option>
+            <mat-option value = "2">~60 min</mat-option>
+            <mat-option value = "3">60+ min</mat-option>      
+           </mat-select>
+        </mat-form-field>
+     </div>
     </div>
     <div id="results">
       <div class="spinner-border text-warning mar-left-50" role="status" *ngIf="loader_spinner">
         <span class="sr-only">Loading...</span>
       </div>
       <mat-grid-list cols="4" rowHeight="200px" gutterSize=50px>
-        <mat-grid-tile *ngFor="let recipe of lstRecipes" [colspan]="1" [rowspan]="1"
+        <mat-grid-tile *ngFor="let recipe of lstRecipes | recipeFilter: max_time" [colspan]="1" [rowspan]="1"
           [style.backgroundImage]="'url('+ recipe.photo_url +')'" (click)="redirect(recipe.recipe_url)" class="tile">
           <div class="tile_content">
             <img src="{{recipe.photo_url}}" alt="Avatar" class="image">
-            <div class="overlay">{{recipe.title}}</div>
+            <div class="overlay">
+              <span>
+                {{recipe.title}}
+              </span>
+              <div class="recipedetails">
+                <span *ngIf="recipe.cooking_time"><i class="fa fa-clock-o"></i>{{recipe.cooking_time}} <label style="font-size: 10px;">m</label></span>
+                <span *ngIf="recipe.serving_size"><i class="fa fa-coffee"></i>{{recipe.serving_size}}</span>
+                <span *ngIf="recipe.cuisine"><i class="fa fa-pie-chart"></i>{{recipe.cuisine | titlecase }}</span>
+                <span *ngIf="recipe.difficulty_level"><i class="fa fa-gears"></i>{{recipe.difficulty_level | titlecase }}</span>
+              </div>
+            </div>
           </div>
         </mat-grid-tile>
       </mat-grid-list>
