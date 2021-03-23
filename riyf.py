@@ -9,6 +9,7 @@ from nltk.stem import WordNetLemmatizer
 from nltk.util import bigrams
 import pandas as pd
 import operator
+import nltk
 
 class RiyfLogic:
 
@@ -123,20 +124,27 @@ class RiyfLogic:
                 doc_dict[doc_line[0]] = float(doc_line[1])
         return index_dict
 
+    def query_preprocess(self, porter_stemmer, regex, stopwords_list, query: str) -> list:
+        processed_query= []
+        stemmed_terms = []
+        for word in query.split():
+            word.translate(str.maketrans('', '', string.punctuation))
+            words = [''.join(c for c in w if c not in string.punctuation) for w in word.split()]
+            words = [WordNetLemmatizer().lemmatize(w.lower()) for w in words if w.isalpha()]
+            words = [w for w in words if w not in self.measures]
+            for word in words:
+                if word:
+                    token = regex.sub('', word).lower()
+                    if token and token not in stopwords_list:
+                        processed_query.append(token)
+        #create bigrams
+        bgs = nltk.bigrams(processed_query)
+        fdist = nltk.FreqDist(bgs)
+        for k,v in fdist.items():
+            bigram = k[0] + " " + k[1]
+            processed_query.append(bigram)
 
-    def ingredient_preprocess(self, word, regex, porter_stemmer, stopwords_list) -> str:
-        word.translate(str.maketrans('', '', string.punctuation))
-        words = [''.join(c for c in w if c not in string.punctuation) for w in word.split()]
-        words = [WordNetLemmatizer().lemmatize(w.lower()) for w in words if w.isalpha()]
-        words = [w for w in words if w not in self.measures]
-        for word in words:
-            if not word:
-                return None
-            token = regex.sub('', word).lower()
-            if token and token not in stopwords_list:
-                return token
-                #return porter_stemmer.stem(token)
-            return ''
+        return processed_query
 
     def ingredient_search(self, query: str) -> list:
         db_connection = DbInstance()
@@ -146,11 +154,8 @@ class RiyfLogic:
         regex = re.compile('[^a-zA-Z0-9]')
         stopwords_list = [regex.sub('', word).lower() for word in open("datasets/englishST.txt").read().split()]
         collection_index = self.construct_dict(open("ingredient_index.pickle", encoding='utf-8'))
-        for word in query.split():
-            term = self.ingredient_preprocess(word, regex, porter_stemmer, stopwords_list)
-            if not term:
-                continue
-            self.get_weights_of_term_ing(collection_index, term, recipe_score)
+        for word in self.query_preprocess(porter_stemmer, regex, stopwords_list, query):
+            self.get_weights_of_term_ing(collection_index, word, recipe_score)
         sorted_tuples = sorted(recipe_score.items(), key=operator.itemgetter(1), reverse=True)
         lst_recipe_id = [int(x[0]) for x in sorted_tuples][:25]
         list_recipes = db_connection.get_recipe(lst_recipe_id)
@@ -162,5 +167,5 @@ class RiyfLogic:
         return sorted_list_recipes
          
 
-# riyf = RiyfLogic()
-# print(riyf.ingredient_search('chocolate chicken'))
+riyf = RiyfLogic()
+print(riyf.ingredient_search('beef in fridge pasta potato'))
