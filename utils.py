@@ -1,21 +1,37 @@
 from glob import glob
 import json
 
+def generate_ingredients_json():
+    unique_ingredients = []
+    list = open("unique_ingredients", "r", encoding='utf-8').readlines()
+    k=1
+    for name in list:
+        ing={}
+        ing['name'] = name.strip()
+        ing['id'] = k
+        k+=1
+        unique_ingredients.append(ing)
+
+    with open('ingredients.json', 'w') as f:
+        json.dump(unique_ingredients, f)
+
+
+source= 'C:/Users/Tej/Downloads/common_output_03222021/common_output_03222021/*.json'
 def generate_unique_id():
     i=1
-    for f_name in glob('C:/Users/Tej/Downloads/Common_ouput v2 - 10032021/Common_ouput v2 - 10032021/*.json'): #location of recipe jsons ( non -IDed)
+    for f_name in glob(source): #location of recipe jsons ( non -IDed)
         f = open(f_name, "r")
         data = json.loads(f.read())
-        data["recipe_id"]=i
+        data["id"]=i
         i+=1
-        with open('C:/Users/Tej/Desktop/ttds_data/recipe_'+str(i)+'.json', 'w') as outfile: #location of recipe jsons (IDed)
+        with open(f_name, 'w') as outfile: #location of recipe jsons (IDed)
             json.dump(data, outfile)
-    print("recipes data IDed")
+
 
 def generate_recipes_json():
     entries = []
     i = 1
-    for f_name in glob('C:/Users/Tej/Desktop/ttds_data/*.json'):  #location where all recipe json files are located
+    for f_name in glob(source):  #location where all recipe json files are located
         f = open(f_name, "r")
         data = json.loads(f.read())
         entry = {}
@@ -37,17 +53,18 @@ def generate_recipes_json():
         else:
             entry['recipe_id'] = None
 
+        #ID
+        if 'id' in data:
+            entry['id'] = data['id']
+        else:
+            entry['id'] = None
+
         #Title
         if 'title' in data:
             entry['title'] = data['title']
         else:
             entry['title'] = None
 
-        #Ingredients
-        if 'ingredients' in data:
-            entry['ingredients'] = data['ingredients']
-        else:
-            entry['ingredients'] = None
 
         #Difficulty Level
         if 'difficulty_level' in data:
@@ -75,19 +92,11 @@ def generate_recipes_json():
         else:
             entry['cooking_time'] = None
 
-
-
         #Other Serving Size
         if 'other_serving_size' in data:
             entry['other_serving_size'] = data['other_serving_size']
         else:
             entry['other_serving_size'] = None
-
-        #Meal Type
-        if 'meal_type' in data:
-            entry['meal_type'] = data['meal_type']
-        else:
-            entry['meal_type'] = None
 
         #Cuisine
         if 'cuisine' in data:
@@ -109,5 +118,11 @@ def generate_recipes_json():
     with open('recipes.json', 'w') as f:
         json.dump(entries, f)
 
-#generate_unique_id()
+generate_unique_id()
+print("Unique Ids are Generated.")
+
 generate_recipes_json()
+print("Recipes JSON is Generated.")
+
+# generate_ingredients_json()
+# print("Ingredients JSON is Generated.")

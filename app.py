@@ -30,7 +30,7 @@ def get_all_recipes():
 def get_all_ingredients():
     db_connection = DbInstance()
     data = db_connection.get_ingredients()
-    return str(data)
+    return jsonify(data)
 
 @app.route('/deleteRecCol')
 def delete_recipes_collection():

@@ -9,29 +9,65 @@
   <div id="header">
     <div id="topbar">
       <img id="searchbarimage" src="assets/images/RIYF.png" />
+
+    <! -- Title Search -->
       <div id="searchbar" type="text" *ngIf="!ing_search">
         <input id="searchbartext" type="text" name="titleSearchText" type="text" placeholder="Search recipe..."
           [(ngModel)]="title_query" value = {{service.text}} #reference />
         <button class="cancel" (click)="reference.value=''">
           <i class="fa fa-times" aria-hidden="true"></i></button>
         <div class="vertical"></div>
-        <button class="mic">
+        <button class="mic" (click)="startService()">
           <i class="fa fa-microphone" aria-hidden="true"></i>
         </button>
         <button class="search" (click)="titleSearch(); stopService()" type="submit">
           <i class="fa fa-search" aria-hidden="true"></i>
         </button>
       </div>
+
+
+   <! -- Ingredient  Search -->
+<!--    <div id="searchbar" type="text" *ngIf="ing_search">-->
+
+<!--      &lt;!&ndash;        <input id="searchbartext" type="text" name="ingredientSearchText" type="text" placeholder="Search ingredients..."&ndash;&gt;-->
+<!--      &lt;!&ndash;          [(ngModel)]="ing_query" value = {{service.text}} #reference />&ndash;&gt;-->
+
+<!--      <mat-form-field class="chip-list" *ngIf="ing_search">-->
+<!--        <mat-chip-list #chipList aria-label="Ingredient selection">-->
+<!--          <mat-chip-->
+<!--            *ngFor="let ing of ingredients"-->
+<!--            [selectable]="selectable"-->
+<!--            [removable]="removable"-->
+<!--            (removed)="remove(ing)">-->
+<!--            {{ing}}-->
+<!--            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>-->
+<!--          </mat-chip>-->
+<!--          <input-->
+<!--            #ingInput-->
+<!--            [formControl]="ingCtrl"-->
+<!--            [matAutocomplete]="auto"-->
+<!--            [matChipInputFor]="chipList"-->
+<!--            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"-->
+<!--            (matChipInputTokenEnd)="add($event)">-->
+<!--        </mat-chip-list>-->
+<!--        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">-->
+<!--          <mat-option *ngFor="let ing of filteredIngs | async" [value]="ing">-->
+<!--            {{ing}}-->
+<!--          </mat-option>-->
+<!--        </mat-autocomplete>-->
+<!--      </mat-form-field>-->
+<!--      <button class="search" (click)="ingredientSearch()" type="submit">-->
+<!--        <i class="fa fa-search" aria-hidden="true"></i>-->
+<!--      </button>-->
+<!--    </div>-->
+
       <div id="searchbar" type="text" *ngIf="ing_search">
         <input id="searchbartext" type="text" name="ingredientSearchText" type="text" placeholder="Search ingredients..."
           [(ngModel)]="ing_query" value = {{service.text}} #reference />
         <button class="cancel" (click)="reference.value=''">
           <i class="fa fa-times" aria-hidden="true"></i></button>
         <div class="vertical"></div>
-        <button class="mic" (click)="startService()">
-          <i class="fa fa-microphone" aria-hidden="true"></i>
-        </button>
-        <button class="search" (click)="ingredientSearch(); stopService()" type="submit">
+        <button class="search" (click)="ingredientSearch();" type="submit">
           <i class="fa fa-search" aria-hidden="true"></i>
         </button>
       </div>
@@ -43,14 +79,16 @@
       <div *ngIf="lstRecipes?.length > 0">
         <mat-form-field appearance = "fill">
            <mat-select placeholder = "Select" (selectionChange)="time_filter()" [(ngModel)]="cooking_time_filter">
-            <mat-option value = "0">Cooking Time</mat-option>  
+            <mat-option value = "0">Cooking Time</mat-option>
             <mat-option value = "1">~30 min</mat-option>
             <mat-option value = "2">~60 min</mat-option>
-            <mat-option value = "3">60+ min</mat-option>      
+            <mat-option value = "3">60+ min</mat-option>
            </mat-select>
         </mat-form-field>
      </div>
     </div>
+
+     <! -- Results section -->
     <div id="results">
       <div class="spinner-border text-warning mar-left-50" role="status" *ngIf="loader_spinner">
         <span class="sr-only">Loading...</span>

@@ -527,6 +527,11 @@ margin: 11px;
       margin-left: 50%;
   }
 
+.chip-list {
+  padding-bottom:100px;
+  width: 100%;
+}
+
   .recipedetails{
       font-size: 15px;
       text-align: center;
