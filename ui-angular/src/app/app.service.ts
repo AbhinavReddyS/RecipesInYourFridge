@@ -21,6 +21,7 @@ import { catchError, retry } from 'rxjs/operators';
     }
 
     public fetchIngredients() : any{
-      return this.http.get(this.SERVICE_API + 'getIngredients');
+      console.log("hi there")
+      return this.http.get(this.SERVICE_API + 'getIngredients')
     }
 }

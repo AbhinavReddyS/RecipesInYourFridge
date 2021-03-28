@@ -17,6 +17,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatOptionModule} from '@angular/material/core';
 import {SearchFilter} from './search/search.filter';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MatMenuModule} from '@angular/material/menu';
 
 
 @NgModule({
@@ -38,7 +39,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     MatFormFieldModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    MatInputModule,MatOptionModule, MatSelectModule, MatIconModule,
+    MatInputModule,MatOptionModule, MatSelectModule, MatIconModule,MatMenuModule
 
 
   ],

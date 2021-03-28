@@ -6,115 +6,147 @@
 </head>
 
 <body>
-  <div id="header">
-    <div id="topbar">
-      <img id="searchbarimage" src="assets/images/RIYF.png" />
+<div id="header">
+  <div id="topbar">
+    <img id="searchbarimage" src="assets/images/RIYF.png" />
 
     <! -- Title Search -->
-      <div id="searchbar" type="text" *ngIf="!ing_search">
-        <input id="searchbartext" type="text" name="titleSearchText" type="text" placeholder="Search recipe..."
-          [(ngModel)]="title_query" value = {{service.text}} #reference />
-        <button class="cancel" (click)="reference.value=''">
-          <i class="fa fa-times" aria-hidden="true"></i></button>
-        <div class="vertical"></div>
-        <button class="mic" (click)="startService()">
-          <i class="fa fa-microphone" aria-hidden="true"></i>
-        </button>
-        <button class="search" (click)="titleSearch(); stopService()" type="submit">
-          <i class="fa fa-search" aria-hidden="true"></i>
-        </button>
-      </div>
-
-
-   <! -- Ingredient  Search -->
-<!--    <div id="searchbar" type="text" *ngIf="ing_search">-->
-
-<!--      &lt;!&ndash;        <input id="searchbartext" type="text" name="ingredientSearchText" type="text" placeholder="Search ingredients..."&ndash;&gt;-->
-<!--      &lt;!&ndash;          [(ngModel)]="ing_query" value = {{service.text}} #reference />&ndash;&gt;-->
-
-<!--      <mat-form-field class="chip-list" *ngIf="ing_search">-->
-<!--        <mat-chip-list #chipList aria-label="Ingredient selection">-->
-<!--          <mat-chip-->
-<!--            *ngFor="let ing of ingredients"-->
-<!--            [selectable]="selectable"-->
-<!--            [removable]="removable"-->
-<!--            (removed)="remove(ing)">-->
-<!--            {{ing}}-->
-<!--            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>-->
-<!--          </mat-chip>-->
-<!--          <input-->
-<!--            #ingInput-->
-<!--            [formControl]="ingCtrl"-->
-<!--            [matAutocomplete]="auto"-->
-<!--            [matChipInputFor]="chipList"-->
-<!--            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"-->
-<!--            (matChipInputTokenEnd)="add($event)">-->
-<!--        </mat-chip-list>-->
-<!--        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">-->
-<!--          <mat-option *ngFor="let ing of filteredIngs | async" [value]="ing">-->
-<!--            {{ing}}-->
-<!--          </mat-option>-->
-<!--        </mat-autocomplete>-->
-<!--      </mat-form-field>-->
-<!--      <button class="search" (click)="ingredientSearch()" type="submit">-->
-<!--        <i class="fa fa-search" aria-hidden="true"></i>-->
-<!--      </button>-->
-<!--    </div>-->
-
-      <div id="searchbar" type="text" *ngIf="ing_search">
-        <input id="searchbartext" type="text" name="ingredientSearchText" type="text" placeholder="Search ingredients..."
-          [(ngModel)]="ing_query" value = {{service.text}} #reference />
-        <button class="cancel" (click)="reference.value=''">
-          <i class="fa fa-times" aria-hidden="true"></i></button>
-        <div class="vertical"></div>
-        <button class="search" (click)="ingredientSearch();" type="submit">
-          <i class="fa fa-search" aria-hidden="true"></i>
-        </button>
-      </div>
-
-      <div class="toggle">
-        <mat-slide-toggle (click)="toggle()"></mat-slide-toggle>
-      </div>
-      <p style="font-weight: bold; color: #f8f9fa;">Ingredient Search</p>
-      <div *ngIf="lstRecipes?.length > 0">
-        <mat-form-field appearance = "fill">
-           <mat-select placeholder = "Select" (selectionChange)="time_filter()" [(ngModel)]="cooking_time_filter">
-            <mat-option value = "0">Cooking Time</mat-option>
-            <mat-option value = "1">~30 min</mat-option>
-            <mat-option value = "2">~60 min</mat-option>
-            <mat-option value = "3">60+ min</mat-option>
-           </mat-select>
-        </mat-form-field>
-     </div>
+    <div id="searchbar" type="text" *ngIf="!ing_search">
+      <input id="searchbartext" type="text" name="titleSearchText" type="text" placeholder="Search recipe..."
+             [(ngModel)]="title_query" value = {{service.text}} #reference />
+      <button class="cancel" (click)="reference.value=''">
+        <i class="fa fa-times" aria-hidden="true"></i></button>
+      <div class="vertical"></div>
+      <button class="mic" (click)="startService()">
+        <i class="fa fa-microphone" aria-hidden="true"></i>
+      </button>
+      <button class="search" (click)="titleSearch(); stopService()" type="submit">
+        <i class="fa fa-search" aria-hidden="true"></i>
+      </button>
     </div>
 
-     <! -- Results section -->
-    <div id="results">
-      <div class="spinner-border text-warning mar-left-50" role="status" *ngIf="loader_spinner">
-        <span class="sr-only">Loading...</span>
-      </div>
-      <mat-grid-list cols="4" rowHeight="200px" gutterSize=50px>
-        <mat-grid-tile *ngFor="let recipe of lstRecipes | recipeFilter: max_time" [colspan]="1" [rowspan]="1"
-          [style.backgroundImage]="'url('+ recipe.photo_url +')'" (click)="redirect(recipe.recipe_url)" class="tile">
-          <div class="tile_content">
-            <img src="{{recipe.photo_url}}" alt="Avatar" class="image">
-            <div class="overlay">
+
+    <! -- Ingredient  Search -->
+    <div id="searchbar" type="text" *ngIf="ing_search">
+
+      <!--        <input id="searchbartext" type="text" name="ingredientSearchText" type="text" placeholder="Search ingredients..."-->
+      <!--          [(ngModel)]="ing_query" value = {{service.text}} #reference />-->
+
+      <mat-form-field class="chip-list" *ngIf="ing_search">
+        <mat-chip-list #chipList aria-label="Ingredient selection">
+          <mat-chip
+            *ngFor="let ing of ingredients"
+            [selectable]="selectable"
+            [removable]="removable"
+            (removed)="remove(ing)">
+            {{ing}}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input
+            #ingInput
+            [formControl]="ingCtrl"
+            [matAutocomplete]="auto"
+            [matChipInputFor]="chipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            (matChipInputTokenEnd)="add($event)">
+        </mat-chip-list>
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+          <mat-option *ngFor="let ing of filteredIngs | async" [value]="ing">
+            {{ing}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <button class="search" (click)="ingredientSearch()" type="submit">
+        <i class="fa fa-search" aria-hidden="true"></i>
+      </button>
+    </div>
+
+    <!--      <div id="searchbar" type="text" *ngIf="ing_search">-->
+    <!--        <input id="searchbartext" type="text" name="ingredientSearchText" type="text" placeholder="Search ingredients..."-->
+    <!--          [(ngModel)]="ing_query" value = {{service.text}} #reference />-->
+    <!--        <button class="cancel" (click)="reference.value=''">-->
+    <!--          <i class="fa fa-times" aria-hidden="true"></i></button>-->
+    <!--        <div class="vertical"></div>-->
+    <!--        <button class="search" (click)="ingredientSearch();" type="submit">-->
+    <!--          <i class="fa fa-search" aria-hidden="true"></i>-->
+    <!--        </button>-->
+    <!--      </div>-->
+
+    <div class="toggle">
+      <mat-slide-toggle (click)="toggle()"></mat-slide-toggle>
+    </div>
+    <p class="p">Ingredient Search</p>
+
+  </div>
+<!--  <div class = "filter_bar_back"></div>-->
+  <div >
+    <div >
+    <form class="filter_bar" [style.fontSize.px]="10">
+      <div class = "filters_f"></div>
+    <mat-form-field class = "filters"  [style.width.px]= 150  appearance = "fill">
+      <mat-label> Cooking Time</mat-label>
+      <mat-select  (selectionChange)="time_filter()" [(ngModel)]="cooking_time_filter_value" name ="value" >
+        <mat-option [value] = "0">None</mat-option>
+        <mat-option [value] = "1"><30 min</mat-option>
+        <mat-option [value] = "2"><60 min</mat-option>
+        <mat-option [value] = "3">60+ min</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class = "filters" [style.width.px]= 150  appearance = "fill">
+      <mat-label> Difficulty Level</mat-label>
+      <mat-select placeholder = "Select" (selectionChange)="dl_filter()" [(ngModel)]="difficulty_level_filter" name ="value">
+        <mat-option value = "0">None</mat-option>
+        <mat-option value = "1">Super easy</mat-option>
+        <mat-option value = "2">easy</mat-option>
+        <mat-option value = "3">moderate</mat-option>
+        <mat-option value = "4">advanced</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class = "filters" [style.width.px]= 150  appearance = "fill">
+      <mat-label>Cuisine</mat-label>
+      <mat-select placeholder = "Select" (selectionChange)="cu_filter()" [(ngModel)]="cuisine_filter" name ="value">
+        <mat-option value = "0">None</mat-option>
+        <mat-option value = "1">Thai</mat-option>
+        <mat-option value = "2">Indian</mat-option>
+        <mat-option value = "3">French</mat-option>
+        <mat-option value = "4">Italian</mat-option>
+        <mat-option value = "5">Chinese</mat-option>
+        <mat-option value = "6">Mexican</mat-option>
+      </mat-select>
+    </mat-form-field>
+      <div class = "filters_b"></div>
+    </form>
+    </div>
+  </div>
+
+
+  <! -- Results section -->
+  <div id="results">
+    <div class="spinner-border text-warning mar-left-50" role="status" *ngIf="loader_spinner">
+      <span class="sr-only">Loading...</span>
+    </div>
+    <mat-grid-list cols="4" rowHeight="200px" gutterSize=50px>
+      <mat-grid-tile *ngFor="let recipe of lstRecipes | recipeFilter: max_time: difficulty_level:cuisine " [colspan]="1" [rowspan]="1"
+                     [style.backgroundImage]="'url('+ recipe.photo_url +')'" (click)="redirect(recipe.recipe_url)" class="tile">
+        <div class="tile_content">
+          <img src="{{recipe.photo_url}}" alt="Avatar" class="image">
+          <div class="overlay">
               <span>
                 {{recipe.title}}
               </span>
-              <div class="recipedetails">
-                <span *ngIf="recipe.cooking_time"><i class="fa fa-clock-o"></i>{{recipe.cooking_time}} <label style="font-size: 10px;">m</label></span>
-                <span *ngIf="recipe.serving_size"><i class="fa fa-coffee"></i>{{recipe.serving_size}}</span>
-                <span *ngIf="recipe.cuisine"><i class="fa fa-pie-chart"></i>{{recipe.cuisine | titlecase }}</span>
-                <span *ngIf="recipe.difficulty_level"><i class="fa fa-gears"></i>{{recipe.difficulty_level | titlecase }}</span>
-              </div>
+            <div class="recipedetails">
+              <span *ngIf="recipe.cooking_time"><i class="fa fa-clock-o"></i>{{recipe.cooking_time}} <label style="font-size: 10px;">m</label></span>
+              <span *ngIf="recipe.serving_size"><i class="fa fa-coffee"></i>{{recipe.serving_size}}</span>
+              <span *ngIf="recipe.cuisine"><i class="fa fa-pie-chart"></i>{{recipe.cuisine | titlecase }}</span>
+              <span *ngIf="recipe.difficulty_level"><i class="fa fa-gears"></i>{{recipe.difficulty_level | titlecase }}</span>
             </div>
           </div>
-        </mat-grid-tile>
-      </mat-grid-list>
-    </div>
-
+        </div>
+      </mat-grid-tile>
+    </mat-grid-list>
   </div>
+
+</div>
 
 </body>
 

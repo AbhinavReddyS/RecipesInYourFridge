@@ -33,8 +33,12 @@ export class SearchComponent implements OnInit {
   loader_spinner: boolean = false;
   lstRecipes: any;
   IngredientsFromDB:any;
-  cooking_time_filter:any;
+  cooking_time_filter_value:string;
   max_time: number = 1000;
+  difficulty_level:string;
+  difficulty_level_filter:any;
+  cuisine_filter:any;
+  cuisine:string;
 
   visible = true;
   selectable = true;
@@ -43,11 +47,10 @@ export class SearchComponent implements OnInit {
   ingCtrl = new FormControl();
   filteredIngs: Observable<string[]>;
   ingredients: string[] = [];
-  allIngredients: string[] = ['Salt', 'Pepper', 'Olive oil', 'sugar', 'onion','butter'];
+  allIngredients:string[] = [];
 
   @ViewChild('ingInput') ingInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
-
 
   constructor(private appService: AppService, public service : VoiceRecognitionService){
     this.service.init()
@@ -62,7 +65,11 @@ export class SearchComponent implements OnInit {
   public ingredientSearch(){
     this.lstRecipes = null;
     this.loader_spinner = true;
-    this.appService.ingredientSearch(this.ing_query).subscribe((response: any) => {
+    var string= new  String()
+    for ( let ing of this.ingredients){
+    string = string+ " "+ ing
+    }
+    this.appService.ingredientSearch(string).subscribe((response: any) => {
       this.lstRecipes = response;
       this.loader_spinner = false;
     });
@@ -81,8 +88,9 @@ export class SearchComponent implements OnInit {
 
   public fetchIngredients(){
     this.appService.fetchIngredients().subscribe((response: any) => {
-      this.allIngredients = response;
-      console.log(this.ingredients)
+    for(let result of response){
+        this.allIngredients.push(result.name);
+    }
     });
   }
 
@@ -108,15 +116,52 @@ export class SearchComponent implements OnInit {
   }
   time_filter(){
     this.max_time = 1000;
-    if (this.cooking_time_filter.indexOf('3') > -1) {
+    console.log(this.cooking_time_filter_value)
+    if (this.cooking_time_filter_value== '3') {
       this.max_time = 1000;
-    } else if (this.cooking_time_filter.indexOf('2') > -1) {
+    } else if (this.cooking_time_filter_value== '2') {
       this.max_time = 60;
-    } else if (this.cooking_time_filter.indexOf('1') > -1) {
+    } else if (this.cooking_time_filter_value== '1') {
       this.max_time = 30;
+    }
+
+    console.log(this.max_time)
+  }
+
+ dl_filter(){
+   if (this.difficulty_level_filter=='0') {
+      this.difficulty_level = null;
+    }
+    if (this.difficulty_level_filter=='1') {
+      this.difficulty_level = "super easy";
+    } else if (this.difficulty_level_filter=='2') {
+      this.difficulty_level = "easy";
+    } else if (this.difficulty_level_filter=='3') {
+      this.difficulty_level = "moderate";
+    } else if (this.difficulty_level_filter=='4') {
+      this.difficulty_level = "advanced";
     }
   }
 
+  cu_filter() {
+     if (this.cuisine_filter=='0') {
+      this.cuisine = null;
+    }
+    if (this.cuisine_filter=='1') {
+      this.cuisine = "thai";
+    } else if (this.cuisine_filter=='2') {
+      this.cuisine = "indian";
+    } else if (this.cuisine_filter=='3') {
+      this.cuisine = "french";
+    } else if (this.cuisine_filter=='4') {
+      this.cuisine = "italian";
+    }  else if (this.cuisine_filter=='5') {
+      this.cuisine = "chinese";
+    } else if (this.cuisine_filter=='6') {
+      this.cuisine = "mexican";
+    }
+
+  }
 
 
 /// ADD CHIP functionality....

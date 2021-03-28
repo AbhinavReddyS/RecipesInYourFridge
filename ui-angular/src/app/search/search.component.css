@@ -9,7 +9,7 @@ body {
     width: 100%;
     align-items: flex-end;
     position: fixed;
-    background-color: #a99546;
+    background-color: #f7f7f7;
     padding:10px;
      z-index: 900;
 }
@@ -17,7 +17,7 @@ body {
 #results {
 padding: 150px 50px 50px 50px;
 z-index: 800;
-background-color: lightyellow;
+background-color: #ffffff;
 }
 
 #searchbarimage {
@@ -54,10 +54,57 @@ html, body {
     fill: #4285F4
 }
 
+
+.example-additional-selection {
+  opacity: 0.75;
+  font-size: 0.75em;
+}
+
+.filter_bar {
+    top: 90px;
+    display: flex;
+    height: 40px;
+    width: 100%;
+    align-items: flex-end;
+    position: fixed;
+    background-color: #ffffff;
+    z-index: 900;
+
+}
+
+.filters{
+background-color:#f7f7f7;
+height:60px;
+padding-top:10px;
+padding-left:12px;
+padding-right:12px;
+
+}
+
+.filters_f{
+background-color:#f7f7f7;
+height:60px;
+width: 180px;
+padding-top:10px;
+padding-left:12px;
+padding-right:12px;
+
+}
+.filters_b{
+background-color:#f7f7f7;
+height:60px;
+width: 100%;
+padding-top:10px;
+padding-left:12px;
+padding-right:12px;
+
+}
+
+
 #searchbar {
     width: 625px;
     height: 45px;
-    border-radius: 100px;
+    border-radius: 10px;
     border-color: lightgray;
     border-style: solid;
     border-width: 1px;
@@ -160,6 +207,7 @@ html, body {
 }
 
 .mic {
+padding-left:0px;
 color:#ecac54;
 background: #ffffff ;
     cursor: pointer;
@@ -175,14 +223,13 @@ background: #ffffff ;
 }
 
  .vertical {
+ width:1px;
+ background-color:#ffffff;
             border-left: 1px solid #BEBEBE;
             height: 30px;
             padding:50px 10px 10px 10px;
         }
 
-.fa-microphone:hover::after{
-colour: #ffffff
-}
 
 .tooltip {
   position: relative;
@@ -293,6 +340,9 @@ margin: 11px;
     position: relative;
     z-index: -1;
 }
+
+.p {
+color: #000000;}
 
 .searchresult p {
     width: 625px;
