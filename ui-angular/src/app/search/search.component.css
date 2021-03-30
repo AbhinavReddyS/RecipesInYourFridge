@@ -72,6 +72,16 @@ html, body {
 
 }
 
+.chipInput {
+
+    height: 20px;
+    width: 100%;
+    padding-left:10px;
+    padding-bottom:50px;
+    background-color: #ffffff;
+    z-index: 900;
+}
+
 .filters{
 background-color:#f7f7f7;
 height:60px;
@@ -100,10 +110,23 @@ padding-right:12px;
 
 }
 
+.results_text{
 
+
+z-index: 700;
+background-color: #ffffff;
+
+
+
+}
+
+#searchbartext {
+  padding-left:10px;
+
+}
 #searchbar {
     width: 625px;
-    height: 45px;
+    height: 50px;
     border-radius: 10px;
     border-color: lightgray;
     border-style: solid;

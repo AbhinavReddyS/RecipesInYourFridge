@@ -29,9 +29,10 @@ export class SearchComponent implements OnInit {
   ing_query: string = '';
   title_query: string = '';
   ing_search: boolean = false;
+  speech_recognition_enabled: boolean = false;
   ing_loaded: boolean = false;
   loader_spinner: boolean = false;
-  lstRecipes: any;
+  lstRecipes: any[];
   IngredientsFromDB:any;
   cooking_time_filter_value:string;
   max_time: number = 1000;
@@ -101,19 +102,30 @@ export class SearchComponent implements OnInit {
     if (this.ing_loaded== false){
       this.fetchIngredients();
       this.ing_loaded=true;
-      }}
+      }
+      this.cooking_time_filter_value = '0';
+      this.difficulty_level_filter='0';
+      this.cuisine_filter='0';
+
+      }
 
   public redirect(url:any){
         window.open(url, "_blank");
   }
 
-  startService(){
-    this.service.start();
+  speechControl() {
+    this.speech_recognition_enabled = !this.speech_recognition_enabled;
+    if (this.speech_recognition_enabled == true) {
+          this.service.text= "";
+          this.service.start();
+     } else {
+          this.title_query = this.service.text
+          this.service.stop();
+          this.service.text= "";
+ }
   }
 
-  stopService(){
-    this.service.stop();
-  }
+
   time_filter(){
     this.max_time = 1000;
     console.log(this.cooking_time_filter_value)
@@ -124,14 +136,9 @@ export class SearchComponent implements OnInit {
     } else if (this.cooking_time_filter_value== '1') {
       this.max_time = 30;
     }
-
-    console.log(this.max_time)
   }
 
  dl_filter(){
-   if (this.difficulty_level_filter=='0') {
-      this.difficulty_level = null;
-    }
     if (this.difficulty_level_filter=='1') {
       this.difficulty_level = "super easy";
     } else if (this.difficulty_level_filter=='2') {
@@ -144,9 +151,6 @@ export class SearchComponent implements OnInit {
   }
 
   cu_filter() {
-     if (this.cuisine_filter=='0') {
-      this.cuisine = null;
-    }
     if (this.cuisine_filter=='1') {
       this.cuisine = "thai";
     } else if (this.cuisine_filter=='2') {

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 
 <head>
   <title>search</title>
@@ -17,10 +17,10 @@
       <button class="cancel" (click)="reference.value=''">
         <i class="fa fa-times" aria-hidden="true"></i></button>
       <div class="vertical"></div>
-      <button class="mic" (click)="startService()">
+      <button class="mic" (click)="speechControl()">
         <i class="fa fa-microphone" aria-hidden="true"></i>
       </button>
-      <button class="search" (click)="titleSearch(); stopService()" type="submit">
+      <button class="search" (click)="titleSearch()" type="submit">
         <i class="fa fa-search" aria-hidden="true"></i>
       </button>
     </div>
@@ -28,11 +28,9 @@
 
     <! -- Ingredient  Search -->
     <div id="searchbar" type="text" *ngIf="ing_search">
-
-      <!--        <input id="searchbartext" type="text" name="ingredientSearchText" type="text" placeholder="Search ingredients..."-->
-      <!--          [(ngModel)]="ing_query" value = {{service.text}} #reference />-->
-
+      <div class="chipInput">
       <mat-form-field class="chip-list" *ngIf="ing_search">
+         <mat-label>Ingredients...</mat-label>
         <mat-chip-list #chipList aria-label="Ingredient selection">
           <mat-chip
             *ngFor="let ing of ingredients"
@@ -43,6 +41,7 @@
             <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
           </mat-chip>
           <input
+             placeholder="New Ingredient..."
             #ingInput
             [formControl]="ingCtrl"
             [matAutocomplete]="auto"
@@ -56,21 +55,11 @@
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
+        </div>
       <button class="search" (click)="ingredientSearch()" type="submit">
         <i class="fa fa-search" aria-hidden="true"></i>
       </button>
     </div>
-
-    <!--      <div id="searchbar" type="text" *ngIf="ing_search">-->
-    <!--        <input id="searchbartext" type="text" name="ingredientSearchText" type="text" placeholder="Search ingredients..."-->
-    <!--          [(ngModel)]="ing_query" value = {{service.text}} #reference />-->
-    <!--        <button class="cancel" (click)="reference.value=''">-->
-    <!--          <i class="fa fa-times" aria-hidden="true"></i></button>-->
-    <!--        <div class="vertical"></div>-->
-    <!--        <button class="search" (click)="ingredientSearch();" type="submit">-->
-    <!--          <i class="fa fa-search" aria-hidden="true"></i>-->
-    <!--        </button>-->
-    <!--      </div>-->
 
     <div class="toggle">
       <mat-slide-toggle (click)="toggle()"></mat-slide-toggle>
@@ -78,14 +67,13 @@
     <p class="p">Ingredient Search</p>
 
   </div>
-<!--  <div class = "filter_bar_back"></div>-->
   <div >
     <div >
     <form class="filter_bar" [style.fontSize.px]="10">
       <div class = "filters_f"></div>
     <mat-form-field class = "filters"  [style.width.px]= 150  appearance = "fill">
       <mat-label> Cooking Time</mat-label>
-      <mat-select  (selectionChange)="time_filter()" [(ngModel)]="cooking_time_filter_value" name ="value" >
+      <mat-select   [(value)]="cooking_time_filter_value" (selectionChange)="time_filter()" >
         <mat-option [value] = "0">None</mat-option>
         <mat-option [value] = "1"><30 min</mat-option>
         <mat-option [value] = "2"><60 min</mat-option>
@@ -124,6 +112,12 @@
   <div id="results">
     <div class="spinner-border text-warning mar-left-50" role="status" *ngIf="loader_spinner">
       <span class="sr-only">Loading...</span>
+    </div>
+    <div class="results_text" *ngIf="lstRecipes?.length >0">
+      <p> Showing Top {{lstRecipes?.length}} Recipes ... </p>
+    </div>
+        <div class="results_text" *ngIf="lstRecipes?.length ==0">
+      <p> No Results found... </p>
     </div>
     <mat-grid-list cols="4" rowHeight="200px" gutterSize=50px>
       <mat-grid-tile *ngFor="let recipe of lstRecipes | recipeFilter: max_time: difficulty_level:cuisine " [colspan]="1" [rowspan]="1"

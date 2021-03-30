@@ -15,9 +15,6 @@ class DbInstance:
 
     #Fetches all ingredients from DB
     def get_ingredients(self):
-
-        print("db.py")
-        print(json.loads(json_util.dumps(self.ing_col.find({}, {"name": 1, "_id": 0}))))
         return json.loads(json_util.dumps(self.ing_col.find({}, {"name": 1, "_id":0})))
 
     #Fetches all recipes from DB

@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, jsonify
 from db import DbInstance
 from riyf import RiyfLogic
+from main_autocorrection import autoCorrect
+
 import sys
 app = Flask(__name__)
 
@@ -18,6 +20,11 @@ def ingredient_search():
 def title_search():
     _processor = RiyfLogic()
     text = request.data.decode()
+    ac = autoCorrect()
+    ac.importWords()
+    if ac.autocorrection(text) is not None:
+        text = ac.autocorrection(text)
+    print(text)
     return jsonify(_processor.title_search(text))
 
 @app.route('/getRecipes')
@@ -36,7 +43,6 @@ def get_all_ingredients():
 def delete_recipes_collection():
     db_connection = DbInstance()
     value = db_connection.delete_recipe_col()
-    print(value)
     if value:
         return "Recipes Collection deleted successfully"
     else:
@@ -46,7 +52,6 @@ def delete_recipes_collection():
 def delete_ing_collection():
     db_connection = DbInstance()
     value = db_connection.delete_ingredient_col()
-    print(value)
     if value:
         return "Ingredients Collection deleted successfully"
     else:
