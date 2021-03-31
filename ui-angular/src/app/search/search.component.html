@@ -11,7 +11,7 @@
     <img id="searchbarimage" src="assets/images/RIYF.png" />
 
     <! -- Title Search -->
-    <div id="searchbar" type="text" *ngIf="!ing_search">
+    <div id="searchbar" (keyup.enter)= "titleSearch()" type="text" *ngIf="!ing_search">
       <input id="searchbartext" type="text" name="titleSearchText" type="text" placeholder="Search recipe..."
              [(ngModel)]="title_query" value = {{service.text}} #reference />
       <button class="cancel" (click)="reference.value=''">
@@ -114,7 +114,7 @@
       <span class="sr-only">Loading...</span>
     </div>
     <div class="results_text" *ngIf="lstRecipes?.length >0">
-      <p> Showing Top {{lstRecipes?.length}} Recipes ... </p>
+      <p> Showing Top {{lstRecipes?.length}} Recipes (without Filters) .... </p>
     </div>
         <div class="results_text" *ngIf="lstRecipes?.length ==0">
       <p> No Results found... </p>

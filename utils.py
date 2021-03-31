@@ -3,7 +3,7 @@ import json
 
 def generate_ingredients_json():
     unique_ingredients = []
-    list = open("unique_ingredients", "r", encoding='utf-8').readlines()
+    list = open("unique_ingredients.txt", "r", encoding='utf-8').readlines()
     k=1
     for name in list:
         ing={}
@@ -118,11 +118,11 @@ def generate_recipes_json():
     with open('recipes.json', 'w') as f:
         json.dump(entries, f)
 
-generate_unique_id()
-print("Unique Ids are Generated.")
+# generate_unique_id()
+# print("Unique Ids are Generated.")
+#
+# generate_recipes_json()
+# print("Recipes JSON is Generated.")
 
-generate_recipes_json()
-print("Recipes JSON is Generated.")
-
-# generate_ingredients_json()
-# print("Ingredients JSON is Generated.")
+generate_ingredients_json()
+print("Ingredients JSON is Generated.")
