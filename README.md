@@ -1,7 +1,7 @@
 # RecipesInYourFridge
 
 ## Description
-
+It is a information retreival system which running 250k+ daaset. Retrives recipes based on the recipes a user has at their disposal.
 1. **app.py** - the backend server
 2. **ui-angular** - the angular app
 3. **template** and **static** folders - used for connection between server and angular app
